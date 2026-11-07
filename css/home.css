@@ -1,0 +1,596 @@
+/* Homepage, rebuilt from the Photoshop mockup (assets/Exports/images/*.png, 1920px wide).
+   Every measurement is in mockup pixels times --u, so the layout scales with the window
+   and matches the mockup exactly at 1920px. Below 900px it switches to a stacked layout. */
+
+:root {
+  --u: calc(min(100vw, 1920px) / 1920);
+  --text: #d9d8d4;        /* mockup body and title text */
+  --muted: #8f8f8f;       /* "In Development", strike prices */
+  --gold: #b0915a;        /* gold button, Early Access, prices */
+  --red: #a11d1d;         /* red buttons and underline */
+  --rail: #5a5a5a;        /* side rail hairlines */
+}
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+.skip {
+  position: absolute; left: 1rem; top: -3rem; z-index: 200;
+  padding: 0.5rem 1rem; background: var(--bone); color: var(--soot);
+}
+.skip:focus { top: 1rem; }
+
+body { color: var(--text); background: #151617; }
+
+/* Body copy sizes from the mockup, never below a readable floor */
+.t-body { font-size: max(15px, calc(32 * var(--u))); line-height: 1.34; }
+
+/* ---------- Shared pieces ---------- */
+.logo {
+  font-family: var(--font-display);
+  font-size: max(30px, calc(64 * var(--u)));
+  line-height: 1;
+  text-decoration: none;
+  color: var(--text);
+  display: inline-block;
+  transform: var(--display-transform);
+}
+
+.btn {
+  display: inline-grid;
+  place-items: center;
+  height: max(44px, calc(70 * var(--u)));
+  padding: 0 max(16px, calc(28 * var(--u)));
+  border: 0;
+  font-family: var(--font-text);
+  font-size: max(15px, calc(26 * var(--u)));
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: filter 160ms ease;
+}
+.btn:hover { background: inherit; filter: brightness(1.12); }
+.btn--gold { background: var(--gold); color: #1b1b1b; }
+.btn--red { background: var(--red); color: #f1eeea; }
+.btn--wide { width: calc(357 * var(--u)); min-width: 180px; height: max(48px, calc(84 * var(--u))); }
+.btn--block { width: 100%; height: max(48px, calc(84 * var(--u))); }
+
+.link {
+  font-size: max(15px, calc(26 * var(--u)));
+  color: var(--text);
+  text-decoration: none;
+  padding-bottom: 0.2em;
+  border-bottom: 2px solid var(--gold);
+}
+.link--red { border-color: var(--red); }
+.link:hover { color: #fff; }
+
+.actions { display: flex; align-items: center; gap: calc(32 * var(--u)); }
+
+/* Side rails: a hairline with words set vertically beside it */
+.rail {
+  position: absolute;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: max(12px, calc(21 * var(--u)));
+  letter-spacing: 0.14em;
+  color: #bdbdbd;
+}
+.rail::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--rail);
+}
+.rail span { writing-mode: vertical-rl; white-space: nowrap; }
+.rail--left { width: calc(70 * var(--u)); left: calc(27 * var(--u)); }
+.rail--left::before { right: 0; }
+.rail--left span { transform: rotate(180deg); }   /* reads bottom to top */
+.rail--right { width: calc(70 * var(--u)); right: calc(15 * var(--u)); justify-content: center; }
+.rail--right::before { left: 0; }
+
+/* Line that falls and ends in a cross (generated ornament) */
+.cross-drop {
+  position: absolute;
+  left: 50%;
+  width: calc(60 * var(--u));
+  height: calc(230 * var(--u));
+  transform: translateX(-50%);
+  /* Pre-coloured image, not a CSS mask: masks are blocked on pages opened straight from a file */
+  background: url("../assets/ornaments/cross-drop-silver.png") center / 100% 100% no-repeat;
+}
+
+/* ================= HERO ================= */
+.hero {
+  position: relative;
+  height: calc(1387 * var(--u));
+  isolation: isolate;
+}
+/* Background art + halo glow move together as one parallax layer */
+.hero__scene {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: calc(1639 * var(--u)); /* runs into the games section, like the mockup */
+  -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent);
+          mask-image: linear-gradient(to bottom, #000 80%, transparent);
+}
+/* Art stays at its designed size, centred, so the halo is always mid-page.
+   On screens wider than 1920px the sides fade into the page colour. */
+.hero__bg {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: max(100%, calc(1920 * var(--u)));
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 0;
+  transform: translateX(-50%);
+}
+@media (min-width: 1921px) {
+  .hero__bg, .armory__bg { width: 1920px; }
+  .hero__bg {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+            mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+  }
+  /* Armory art fades on all four sides on very wide screens: side fade x top/bottom fade */
+  .armory__bg {
+    -webkit-mask-image:
+      linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent 0%, #000 14%, #000 58%, transparent 84%);
+    -webkit-mask-composite: source-in;
+            mask-image:
+      linear-gradient(to right, transparent, #000 12%, #000 88%, transparent),
+      linear-gradient(to bottom, transparent 0%, #000 14%, #000 58%, transparent 84%);
+            mask-composite: intersect;
+  }
+}
+
+/* Sticky menu: fixed to the top, transparent over the hero, gains a dark
+   blurred bar once the page scrolls (class set by the script in index.html) */
+html { scroll-padding-top: max(72px, calc(120 * var(--u))); }
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: calc(32 * var(--u)) calc(80 * var(--u)) calc(20 * var(--u)) calc(72 * var(--u));
+  transition: background-color 300ms ease, padding 300ms ease, box-shadow 300ms ease;
+}
+.nav.is-scrolled {
+  padding-top: max(10px, calc(16 * var(--u)));
+  padding-bottom: max(10px, calc(16 * var(--u)));
+  background: rgba(21, 22, 23, 0.82);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.nav .logo { transition: font-size 300ms ease; }
+.nav.is-scrolled .logo { font-size: max(26px, calc(48 * var(--u))); }
+.nav ul { list-style: none; display: flex; align-items: center; gap: calc(70 * var(--u)); margin: 0; padding: 0; }
+.nav ul a { font-size: max(15px, calc(28 * var(--u))); color: var(--text); text-decoration: none; }
+.nav ul a:hover { color: #fff; }
+
+.cart { position: relative; display: inline-grid; place-items: center; }
+.cart svg {
+  width: max(24px, calc(36 * var(--u)));
+  height: auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+.cart__count {
+  position: absolute;
+  top: -0.35em;
+  right: -0.6em;
+  min-width: 1.5em;
+  height: 1.5em;
+  padding: 0 0.3em;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--red);
+  color: #f1eeea;
+  font-size: max(10px, calc(16 * var(--u)));
+  line-height: 1;
+}
+
+.hero__rail-l { top: calc(195 * var(--u)); height: calc(845 * var(--u)); }
+.hero__rail-r { top: calc(460 * var(--u)); height: calc(840 * var(--u)); }
+
+.hero__title {
+  position: absolute;
+  z-index: 1;
+  left: calc(50% - 410 * var(--u)); /* mockup x 550, measured from the page centre */
+  top: calc(140 * var(--u));
+  width: calc(822 * var(--u));
+  transform: none; /* the exported title is already leaned */
+}
+.hero__title img { width: 100%; height: auto; }
+
+.hero__knight {
+  position: absolute;
+  z-index: 2;
+  left: calc(50% - 180 * var(--u)); /* mockup x 780 */
+  top: calc(286 * var(--u));
+  width: calc(360 * var(--u));
+  height: auto;
+}
+
+.hero__intro {
+  position: absolute;
+  z-index: 3;
+  left: calc(50% - 630 * var(--u)); /* mockup x 330 */
+  top: calc(625 * var(--u));
+}
+.hero__intro p { margin: 0 0 calc(32 * var(--u)); font-size: max(15px, calc(32 * var(--u))); line-height: 1.34; }
+
+.hero__drop { top: calc(1115 * var(--u)); z-index: 3; }
+
+/* ================= GAMES ================= */
+.games {
+  position: relative;
+  padding: calc(55 * var(--u)) 0 calc(70 * var(--u));
+  text-align: center;
+  isolation: isolate;
+}
+.games__smoke {
+  position: absolute;
+  z-index: -1;
+  top: calc(-220 * var(--u));
+  left: 0;
+  width: 100%;
+  height: auto;
+  opacity: 0.45;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+/* Centred leaned titles hug their text, so the lean can't push a corner off the page */
+.games__title, .signup__title { width: fit-content; margin-inline: auto; }
+.games__title {
+  font-size: max(46px, calc(150 * var(--u)));
+  line-height: 0.98;
+  color: #d4d3cf;
+}
+.games__lede {
+  margin: calc(70 * var(--u)) auto 0;
+  font-size: max(15px, calc(26 * var(--u)));
+  line-height: 1.62;
+  letter-spacing: 0.02em;
+}
+
+.games__cols {
+  display: grid;
+  grid-template-columns: repeat(3, calc(460 * var(--u)));
+  justify-content: center;
+  column-gap: calc(118 * var(--u));
+  margin-top: calc(30 * var(--u));
+  align-items: start;
+}
+.game { display: grid; justify-items: center; }
+.game--low { margin-top: calc(80 * var(--u)); }
+
+/* Arch: exported art sits inside the exported thorn frame */
+.arch { position: relative; width: calc(386 * var(--u)); aspect-ratio: 386 / 576; }
+.arch__art {
+  position: absolute;
+  left: 3.6%;
+  bottom: 2.8%;
+  width: 92.8%;
+  height: auto;
+}
+.arch__frame { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.arch::after { content: none; } /* the exported silver frame replaces the gold one from tokens.css */
+.game:hover .arch__art { filter: brightness(1.12); }
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: calc(10 * var(--u));
+  margin: calc(8 * var(--u)) 0 0;
+  font-size: max(14px, calc(26 * var(--u)));
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.status img { width: calc(44 * var(--u)); min-width: 22px; height: auto; }
+.status--early { color: var(--gold); }
+
+.game h3 {
+  margin-top: calc(18 * var(--u));
+  font-size: max(40px, calc(104 * var(--u)));
+  line-height: 1;
+  color: #d4d3cf;
+}
+.game__desc {
+  margin: calc(30 * var(--u)) 0 calc(40 * var(--u));
+  font-size: max(14px, calc(26 * var(--u)));
+  line-height: 1.62;
+  letter-spacing: 0.06em;
+}
+
+/* ================= ARMORY ================= */
+.armory {
+  position: relative;
+  height: calc(1327 * var(--u));
+  overflow: hidden;
+  isolation: isolate;
+}
+.armory__bg {
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: calc(-400 * var(--u)); /* raised so its lower edge sits well below the section */
+  width: 100%;
+  height: auto;
+  opacity: 0.75;
+  transform: translateX(-50%);
+  /* Fade top and bottom into the page: no hard edge, even while it drifts on scroll */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 58%, transparent 84%);
+          mask-image: linear-gradient(to bottom, transparent 0%, #000 14%, #000 58%, transparent 84%);
+}
+.armory__drop { top: calc(40 * var(--u)); }
+.armory__rail-l { top: calc(95 * var(--u)); height: calc(835 * var(--u)); }
+.armory__rail-r { top: calc(365 * var(--u)); height: calc(835 * var(--u)); }
+
+.armory__knight {
+  position: absolute;
+  left: calc(50% - 590 * var(--u)); /* mockup x 370 */
+  top: calc(365 * var(--u));
+  width: calc(520 * var(--u));
+  height: auto;
+}
+.armory__intro {
+  position: absolute;
+  right: calc(50% - 477 * var(--u)); /* mockup right edge 1437 */
+  top: calc(470 * var(--u));
+  display: grid;
+  justify-items: end;
+  text-align: right;
+}
+.armory__title {
+  font-size: max(64px, calc(200 * var(--u)));
+  line-height: 1;
+  color: #d4d3cf;
+  margin-right: calc(10 * var(--u));
+}
+.armory__intro p { margin: calc(50 * var(--u)) 0 calc(34 * var(--u)); font-size: max(15px, calc(32 * var(--u))); line-height: 1.34; }
+
+/* ================= PRODUCTS ================= */
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, calc(452 * var(--u)));
+  justify-content: center;
+  column-gap: calc(246 * var(--u));
+  padding: calc(52 * var(--u)) 0 calc(120 * var(--u));
+  align-items: start;
+}
+.product { display: grid; justify-items: start; }
+.product__media {
+  margin: 0 0 calc(30 * var(--u));
+  width: 100%;
+  aspect-ratio: 452 / 528;
+  background: #dcdcda;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.product__img {
+  width: 92%;
+  height: 92%;
+  object-fit: contain;
+  transition: transform 700ms cubic-bezier(.2, .7, .2, 1);
+}
+.product__media { position: relative; }
+
+/* Worn photo fades in over the cutout on hover (or keyboard focus inside the image) */
+.product__worn {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity 450ms ease, transform 900ms cubic-bezier(.2, .7, .2, 1);
+}
+.product__media:hover .product__worn,
+.product__media:focus-within .product__worn { opacity: 1; transform: scale(1); }
+
+/* Quick add: a bar that slides up from the bottom edge of the image */
+.quick-add {
+  position: absolute;
+  z-index: 2;
+  left: calc(16 * var(--u));
+  right: calc(16 * var(--u));
+  bottom: calc(16 * var(--u));
+  height: max(44px, calc(70 * var(--u)));
+  border: 0;
+  background: rgba(21, 22, 23, 0.82);
+  -webkit-backdrop-filter: blur(6px);
+          backdrop-filter: blur(6px);
+  color: #f1eeea;
+  font-family: var(--font-text);
+  font-size: max(15px, calc(26 * var(--u)));
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(calc(100% + 16 * var(--u)));
+  transition: opacity 300ms ease, transform 400ms cubic-bezier(.2, .7, .2, 1), background-color 200ms ease;
+}
+.product__media:hover .quick-add,
+.product__media:focus-within .quick-add { opacity: 1; transform: none; }
+.quick-add:hover { background: var(--red); }
+.quick-add:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.quick-add.is-added { background: var(--red); }
+
+/* Touch screens have no hover: keep Quick add visible */
+@media (hover: none) {
+  .quick-add { opacity: 1; transform: none; }
+}
+
+/* Cart count pops when something is added */
+.cart.is-bumped .cart__count { animation: cart-bump 450ms cubic-bezier(.3, 1.6, .5, 1); }
+@keyframes cart-bump { 40% { transform: scale(1.5); } }
+
+.product__kind { margin: 0; font-size: max(14px, calc(26 * var(--u))); letter-spacing: 0.04em; color: var(--gold); }
+.product h3 {
+  margin-top: calc(14 * var(--u));
+  font-size: max(40px, calc(104 * var(--u)));
+  line-height: 1;
+  color: #d4d3cf;
+  transform-origin: left bottom;
+}
+.price {
+  margin: calc(18 * var(--u)) 0 0;
+  display: flex;
+  align-items: baseline;
+  gap: calc(20 * var(--u));
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--gold);
+  font-size: max(26px, calc(50 * var(--u)));
+}
+.price s { font-size: 0.72em; color: #6e6e6e; font-weight: 600; }
+
+.opt { border: 0; margin: calc(34 * var(--u)) 0 0; padding: 0; min-width: 0; }
+.opt legend { padding: 0; margin-bottom: calc(26 * var(--u)); font-size: max(14px, calc(26 * var(--u))); letter-spacing: 0.04em; color: var(--muted); }
+
+.sizes { display: flex; gap: calc(9 * var(--u)); }
+.sizes label { position: relative; cursor: pointer; }
+.sizes input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.sizes span {
+  display: grid;
+  place-items: center;
+  width: calc(83 * var(--u));
+  min-width: 40px;
+  height: max(38px, calc(72 * var(--u)));
+  border: 1px solid #343638;
+  font-size: max(14px, calc(26 * var(--u)));
+  color: var(--text);
+}
+.sizes label:hover span { border-color: #6a6a6a; }
+.sizes input:checked + span { background: #2a2d2f; border-color: var(--gold); }
+.sizes input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.product .btn--block { margin-top: calc(52 * var(--u)); }
+.specs {
+  list-style: none;
+  margin: calc(42 * var(--u)) 0 0;
+  padding: 0;
+  font-size: max(14px, calc(26 * var(--u)));
+  line-height: 1.62;
+  letter-spacing: 0.06em;
+}
+
+/* ================= SIGNUP + FOOTER ================= */
+.signup {
+  position: relative;
+  min-height: calc(1116 * var(--u));
+  padding: calc(85 * var(--u)) clamp(1rem, 4vw, 3rem) calc(55 * var(--u));
+  text-align: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+.signup__bg {
+  position: absolute;
+  z-index: -2;
+  left: 0;
+  top: calc(-360 * var(--u));
+  width: 100%;
+  height: calc(100% + 360 * var(--u));
+  object-fit: cover;
+  object-position: 50% 100%;
+  opacity: 0.62;
+}
+.signup::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(to bottom, #151617 0%, rgba(21, 22, 23, 0.15) 22%, transparent 45%);
+}
+.signup__title {
+  font-size: max(40px, calc(118 * var(--u)));
+  line-height: 0.85;
+  color: #d4d3cf;
+}
+.signup__lede { margin: calc(50 * var(--u)) 0 0; font-size: max(15px, calc(28 * var(--u))); letter-spacing: 0.02em; }
+
+.signup__form {
+  width: min(100%, calc(747 * var(--u)), 747px);
+  min-width: min(100%, 420px);
+  margin: calc(92 * var(--u)) auto 0;
+  display: grid;
+  gap: calc(14 * var(--u));
+  text-align: left;
+}
+.signup__form label { font-size: max(14px, calc(25 * var(--u))); }
+.signup__row { display: flex; gap: calc(12 * var(--u)); }
+.signup__row input {
+  flex: 1;
+  min-width: 0;
+  height: max(48px, calc(84 * var(--u)));
+  padding: 0 calc(28 * var(--u));
+  font: inherit;
+  font-size: max(15px, calc(24 * var(--u)));
+  color: var(--text);
+  background: #26292b;
+  border: 1px solid #5a5d60;
+}
+.signup__row input::placeholder { color: #7d8084; }
+.signup__row input:focus-visible { outline: 2px solid var(--gold); outline-offset: 0; }
+.signup__row .btn { height: max(48px, calc(84 * var(--u))); width: calc(162 * var(--u)); min-width: 110px; }
+.signup__form output { min-height: 1.5em; font-size: max(13px, calc(22 * var(--u))); color: var(--gold); }
+
+.foot { margin-top: calc(150 * var(--u)); display: grid; justify-items: center; gap: calc(36 * var(--u)); }
+.logo--foot { font-size: max(48px, calc(110 * var(--u))); }
+.foot ul { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: calc(70 * var(--u)); margin: calc(20 * var(--u)) 0 0; padding: 0; }
+.foot ul a { font-size: max(15px, calc(28 * var(--u))); color: var(--text); text-decoration: none; }
+.foot ul a:hover { color: #fff; }
+.foot p { margin: calc(20 * var(--u)) 0 0; font-size: max(13px, calc(24 * var(--u))); letter-spacing: 0.03em; }
+
+/* ================= STACKED LAYOUT (tablets and phones) ================= */
+@media (max-width: 900px) {
+  .rail, .cross-drop { display: none; }
+
+  .hero { height: auto; padding: 1.25rem 1rem 3rem; display: grid; justify-items: center; }
+  .hero__scene { height: 100%; }
+  .hero__bg { width: 100%; }
+  .nav { padding: 0.9rem 1rem; }
+  .nav ul { gap: 1rem; }
+  .hero__title { position: static; width: min(92%, 30rem); margin-top: 7rem; }
+  .hero__knight { position: static; width: min(55%, 15rem); margin-top: -3.5rem; }
+  .hero__intro { position: static; margin-top: 1.5rem; text-align: center; }
+  .hero__intro .actions { justify-content: center; }
+
+  .games { padding: 3rem 1rem; }
+  .games__lede br { display: none; }
+  .games__cols { grid-template-columns: minmax(0, 22rem); row-gap: 4rem; margin-top: 3rem; }
+  .game--low { margin-top: 0; }
+  .arch { width: 100%; }
+  .btn--wide { width: 100%; }
+
+  .armory { height: auto; padding: 3rem 1rem 4rem; display: grid; justify-items: center; }
+  .armory__bg { top: auto; bottom: 0; left: 0; height: 100%; object-fit: cover; transform: none; }
+  .armory__knight { position: static; width: min(60%, 16rem); }
+  .armory__intro { position: static; justify-items: center; text-align: center; margin-top: 1.5rem; }
+
+  .products { grid-template-columns: minmax(0, 24rem); row-gap: 4rem; padding: 3rem 1rem 4rem; }
+
+  .signup { min-height: 0; padding-top: 3rem; }
+  .signup__bg { top: auto; bottom: 0; height: 100%; object-fit: cover; }
+  .signup__row { flex-direction: column; }
+  .signup__row .btn { width: 100%; }
+  .foot { margin-top: 4rem; }
+}

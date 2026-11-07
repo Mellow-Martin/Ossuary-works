@@ -1,0 +1,86 @@
+/* Motion layer. The JS-driven parts only apply when js/motion.js adds html.motion,
+   which it skips for visitors with "reduce motion" turned on. */
+
+/* ---------- Ink reveal (sizes and position set per frame by js/motion.js) ---------- */
+.motion .ink-on:not(.ink-done) {
+  -webkit-mask-image: var(--ink-img);
+          mask-image: var(--ink-img);
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-size: var(--ink-w, 0px) var(--ink-h, 0px);
+          mask-size: var(--ink-w, 0px) var(--ink-h, 0px);
+  -webkit-mask-position: var(--ink-x, 50%) var(--ink-y, 0px);
+          mask-position: var(--ink-x, 50%) var(--ink-y, 0px);
+}
+
+/* Hero waits hidden until its load-time reveal starts (class added in the <head> script).
+   .ink-failsafe is added after a few seconds in case the reveal never runs. */
+.motion .hero[data-ink-load]:not(.ink-on):not(.ink-done) { visibility: hidden; }
+.ink-failsafe .hero[data-ink-load] { visibility: visible; -webkit-mask: none; mask: none; }
+
+/* ---------- Titles sharpen out of a blur, like wet ink drying ---------- */
+.motion .bleed {
+  opacity: 0;
+  filter: blur(14px);
+  transition: opacity 1.2s ease, filter 1.6s cubic-bezier(.2, .7, .2, 1);
+}
+.motion .bleed.is-in { opacity: 1; filter: blur(0); }
+
+/* ---------- Drifting particles (js/particles.js): one canvas per section, never clickable ---------- */
+canvas.particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4; /* in the air, in front of the art; faint enough not to bother the text */
+  pointer-events: none;
+}
+
+/* ---------- Parallax layers: smooth out per-frame updates ---------- */
+.motion [data-depth] { will-change: translate; }
+
+@media (prefers-reduced-motion: no-preference) {
+
+  /* Halo glow over the thorn ring in the hero art: an uneven candle flicker */
+  .hero__glow {
+    position: absolute;
+    left: 49.6%;
+    top: 11%;
+    width: calc(340 * var(--u));
+    height: calc(190 * var(--u));
+    transform: translate(-50%, -50%);
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.12) 45%, transparent 70%);
+    mix-blend-mode: screen;
+    pointer-events: none;
+    animation: halo-flicker 6s infinite;
+  }
+  @keyframes halo-flicker {
+    0%, 100% { opacity: 0.55; }
+    8%  { opacity: 0.85; }
+    12% { opacity: 0.6; }
+    30% { opacity: 0.95; }
+    34% { opacity: 0.7; }
+    55% { opacity: 0.9; }
+    60% { opacity: 0.5; }
+    78% { opacity: 0.8; }
+  }
+
+  /* Smoke drifts slowly across the games title */
+  .games__smoke { animation: smoke-drift 38s ease-in-out infinite alternate; }
+  @keyframes smoke-drift {
+    from { translate: -3% 0; }
+    to   { translate: 3% -1.5%; }
+  }
+
+  /* Arch hover: art lifts out of the dark, thorn frame catches the light */
+  .arch__art { transition: filter 500ms ease; }
+  .arch__frame { transition: filter 500ms ease; }
+  .game:hover .arch__art,
+  .game:focus-within .arch__art { filter: brightness(1.18) contrast(1.05); }
+  .game:hover .arch__frame,
+  .game:focus-within .arch__frame { filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 14px rgba(255, 255, 255, 0.25)); }
+}
+
+@media (max-width: 900px) {
+  .hero__glow { display: none; } /* phone art is cropped differently */
+}

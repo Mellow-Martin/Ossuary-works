@@ -1,0 +1,343 @@
+/* Inner pages (news.html, about.html). Builds on tokens.css + home.css (menu, buttons,
+   rails, sign-up form, footer). Same mockup units: 1920px-wide design scaled by --u. */
+
+/* ---------- Background texture: cracked plaster behind the whole page ---------- */
+body.inner-page {
+  background:
+    radial-gradient(90% 70% at 50% 0%, transparent 40%, rgba(12, 13, 14, 0.55) 100%),
+    linear-gradient(rgba(22, 23, 24, 0.62), rgba(22, 23, 24, 0.62)), /* keeps it the same charcoal as the homepage */
+    url("../assets/textures/plaster.jpg") center top / 768px repeat,
+    #161718;
+}
+/* Darker wells behind long reading areas so text stays crisp over the texture */
+body.inner-page .feed,
+body.inner-page .timeline-wrap {
+  background: radial-gradient(60% 50% at 50% 50%, rgba(18, 19, 20, 0.55), transparent 80%);
+}
+
+/* ---------- Page header: no hero image, just type, ornament and rails ---------- */
+.page-head {
+  position: relative;
+  padding: calc(150 * var(--u)) clamp(1rem, 4vw, 3rem) calc(60 * var(--u));
+  text-align: center;
+  isolation: isolate;
+}
+.page-head::before {
+  /* faint pool of light behind the title, in place of a background image */
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(42% 60% at 50% 30%, rgba(217, 216, 212, 0.07), transparent 70%);
+}
+.page-head .cross-drop { position: static; display: block; margin: 0 auto calc(30 * var(--u)); transform: none; }
+.page-head__kicker {
+  margin: 0;
+  font-size: max(14px, calc(24 * var(--u)));
+  letter-spacing: 0.14em;
+  color: var(--gold);
+}
+.page-head__title {
+  width: fit-content;
+  margin: calc(10 * var(--u)) auto 0;
+  font-size: max(64px, calc(220 * var(--u)));
+  line-height: 0.95;
+  color: #d4d3cf;
+}
+.page-head__lede {
+  margin: calc(40 * var(--u)) auto 0;
+  max-width: 56ch;
+  text-wrap: balance;
+  font-size: max(15px, calc(30 * var(--u)));
+  line-height: 1.45;
+}
+.page-head .rail { top: calc(170 * var(--u)); height: calc(560 * var(--u)); }
+
+.nav ul a[aria-current="page"] { color: #fff; text-decoration: underline; text-decoration-color: var(--red); text-underline-offset: 0.35em; text-decoration-thickness: 2px; }
+
+/* ================= NEWS ================= */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: calc(14 * var(--u));
+  margin-top: calc(50 * var(--u));
+}
+.filters button {
+  min-height: 44px;
+  padding: 0 calc(28 * var(--u));
+  border: 1px solid #343638;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  font-size: max(14px, calc(24 * var(--u)));
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: color 160ms ease, border-color 160ms ease, background-color 160ms ease;
+}
+.filters button:hover { color: var(--text); border-color: #6a6a6a; }
+.filters button[aria-pressed="true"] { color: var(--text); border-color: var(--gold); background: #222427; }
+.filters button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* Featured: newest patch, arch art beside the notes */
+.featured {
+  display: grid;
+  grid-template-columns: calc(386 * var(--u)) minmax(0, calc(820 * var(--u)));
+  justify-content: center;
+  gap: calc(110 * var(--u));
+  align-items: start;
+  padding: calc(60 * var(--u)) clamp(1rem, 4vw, 3rem) calc(120 * var(--u));
+}
+.featured[hidden] { display: none; }
+.featured--no-art { grid-template-columns: minmax(0, calc(820 * var(--u))); }
+.featured__actions { margin-top: calc(50 * var(--u)); }
+.featured__summary + .changes, .featured p + p { margin-top: calc(24 * var(--u)); }
+.entry details > p { margin-top: calc(10 * var(--u)); }
+.featured .arch { width: 100%; }
+.featured__label { margin: 0 0 calc(14 * var(--u)); display: flex; flex-wrap: wrap; align-items: center; gap: calc(18 * var(--u)); }
+.featured h2 {
+  font-size: max(40px, calc(110 * var(--u)));
+  line-height: 0.95;
+  color: #d4d3cf;
+  transform-origin: left bottom;
+}
+.featured__summary { margin: calc(30 * var(--u)) 0 0; font-size: max(15px, calc(28 * var(--u))); line-height: 1.5; max-width: 52ch; }
+
+/* Small labels shared by featured and feed entries */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  font-size: max(13px, calc(22 * var(--u)));
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.tag img { width: max(18px, calc(34 * var(--u))); height: auto; }
+.tag--gold { color: var(--gold); }
+.tag--version {
+  padding: 0.15em 0.6em;
+  border: 1px solid #343638;
+  color: var(--text);
+}
+
+/* Change lists: New / Changed / Fixed */
+.changes { margin-top: calc(40 * var(--u)); display: grid; gap: calc(32 * var(--u)); }
+.changes h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: max(16px, calc(30 * var(--u)));
+  letter-spacing: 0.04em;
+  transform: none;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.changes h3::before {
+  content: "";
+  width: 0.7em;
+  height: 0.7em;
+  /* Pre-coloured images, not CSS masks: masks are blocked on pages opened straight from a file */
+  background: url("../assets/ornaments/star-gold.png") center / contain no-repeat;
+}
+.changes ul { list-style: none; margin: calc(12 * var(--u)) 0 0; padding: 0 0 0 calc(32 * var(--u)); border-left: 1px solid #343638; display: grid; gap: calc(8 * var(--u)); }
+.changes li { font-size: max(14px, calc(25 * var(--u))); line-height: 1.5; letter-spacing: 0.02em; }
+
+/* Feed: a vertical timeline, one long rule down the left */
+.feed {
+  position: relative;
+  max-width: calc(1220 * var(--u));
+  min-width: min(100%, 680px);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 3rem) calc(140 * var(--u));
+}
+.feed__title {
+  width: fit-content;
+  margin: 0 auto calc(70 * var(--u));
+  font-size: max(40px, calc(120 * var(--u)));
+  color: #d4d3cf;
+}
+.feed__list { list-style: none; margin: 0; padding: 0; position: relative; }
+.feed__list::before {
+  content: "";
+  position: absolute;
+  left: calc(230 * var(--u));
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, #3a3d40, #3a3d40 85%, transparent);
+}
+.entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: calc(230 * var(--u)) minmax(0, 1fr);
+  gap: 0 calc(70 * var(--u));
+  padding-bottom: calc(80 * var(--u));
+}
+.entry[hidden] { display: none; }
+/* Star where each entry meets the rule */
+.entry::before {
+  content: "";
+  position: absolute;
+  left: calc(230 * var(--u));
+  top: calc(6 * var(--u));
+  width: max(20px, calc(36 * var(--u)));
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: url("../assets/ornaments/star-silver.png") center / contain no-repeat;
+}
+.entry[data-type="patch"]::before { background-image: url("../assets/ornaments/star-gold.png"); }
+.entry time {
+  padding-right: calc(50 * var(--u));
+  text-align: right;
+  font-size: max(14px, calc(24 * var(--u)));
+  letter-spacing: 0.04em;
+  color: var(--muted);
+  padding-top: calc(4 * var(--u));
+}
+.entry__body { display: grid; justify-items: start; gap: calc(14 * var(--u)); }
+.entry__tags { display: flex; flex-wrap: wrap; gap: calc(16 * var(--u)); align-items: center; }
+.entry h3 {
+  font-size: max(30px, calc(72 * var(--u)));
+  line-height: 1;
+  color: #d4d3cf;
+  transform-origin: left bottom;
+}
+.entry p { margin: 0; max-width: 58ch; font-size: max(14px, calc(26 * var(--u))); line-height: 1.55; letter-spacing: 0.02em; }
+
+/* Expandable full notes */
+.entry details { width: 100%; }
+.entry summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  min-height: 44px;
+  cursor: pointer;
+  list-style: none;
+  font-size: max(14px, calc(24 * var(--u)));
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--red);
+  text-underline-offset: 0.3em;
+}
+.entry summary::-webkit-details-marker { display: none; }
+.entry summary::after { content: "+"; font-size: 1.2em; line-height: 1; color: var(--gold); text-decoration: none; }
+.entry details[open] summary::after { content: "−"; }
+.entry summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.entry details .changes { margin-top: calc(10 * var(--u)); }
+
+.feed__empty { text-align: center; color: var(--muted); }
+
+/* ================= ABOUT ================= */
+.about-intro {
+  display: grid;
+  grid-template-columns: calc(430 * var(--u)) minmax(0, calc(760 * var(--u)));
+  justify-content: center;
+  gap: calc(130 * var(--u));
+  align-items: center;
+  padding: calc(40 * var(--u)) clamp(1rem, 4vw, 3rem) calc(150 * var(--u));
+}
+.about-intro .arch { width: 100%; }
+/* Art pre-cut to the frame's exact inner shape (tools/bake-ornaments.ps1), drawn at the frame's size */
+.arch__art--baked {
+  top: 0;
+  left: 0;
+  bottom: auto;
+  width: 100%;
+  height: 100%;
+}
+.about-games .arch { display: block; }
+.about-intro h2 {
+  font-size: max(40px, calc(120 * var(--u)));
+  line-height: 0.95;
+  color: #d4d3cf;
+  transform-origin: left bottom;
+}
+.about-intro p { margin: calc(34 * var(--u)) 0 0; font-size: max(15px, calc(29 * var(--u))); line-height: 1.55; max-width: 48ch; }
+.about-intro .signature { margin-top: calc(44 * var(--u)); color: var(--gold); font-style: italic; }
+
+/* Three pillars, joined by vertical rules */
+.pillars {
+  display: grid;
+  grid-template-columns: repeat(3, calc(420 * var(--u)));
+  justify-content: center;
+  padding: 0 clamp(1rem, 4vw, 3rem) calc(150 * var(--u));
+}
+.pillar { display: grid; justify-items: center; text-align: center; gap: calc(18 * var(--u)); padding: calc(10 * var(--u)) calc(50 * var(--u)); }
+.pillar + .pillar { border-left: 1px solid #343638; }
+.pillar__star {
+  width: max(34px, calc(64 * var(--u)));
+  aspect-ratio: 1;
+  background: url("../assets/ornaments/star-gold.png") center / contain no-repeat;
+}
+.pillar h3 { font-size: max(32px, calc(80 * var(--u))); line-height: 1; color: #d4d3cf; }
+.pillar p { margin: 0; font-size: max(14px, calc(25 * var(--u))); line-height: 1.6; letter-spacing: 0.03em; }
+
+/* Studio timeline: a real sequence, so it reads top to bottom */
+.timeline-wrap { padding: 0 clamp(1rem, 4vw, 3rem) calc(150 * var(--u)); }
+.timeline-wrap .feed__title { margin-bottom: calc(60 * var(--u)); }
+.timeline { list-style: none; margin: 0 auto; padding: 0; max-width: calc(900 * var(--u)); min-width: min(100%, 560px); position: relative; }
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #3a3d40;
+}
+.timeline li {
+  position: relative;
+  width: 50%;
+  padding: 0 calc(60 * var(--u)) calc(60 * var(--u));
+}
+.timeline li:nth-child(odd) { text-align: right; }
+.timeline li:nth-child(even) { margin-left: 50%; padding-left: calc(60 * var(--u)); padding-right: 0; }
+.timeline li:nth-child(odd) { padding-left: 0; }
+.timeline li::before {
+  content: "";
+  position: absolute;
+  top: calc(4 * var(--u));
+  width: max(18px, calc(32 * var(--u)));
+  aspect-ratio: 1;
+  background: url("../assets/ornaments/star-gold.png") center / contain no-repeat;
+}
+.timeline li:nth-child(odd)::before { right: 0; transform: translateX(50%); }
+.timeline li:nth-child(even)::before { left: 0; transform: translateX(-50%); }
+.timeline time { display: block; font-size: max(13px, calc(22 * var(--u))); letter-spacing: 0.08em; color: var(--gold); }
+.timeline h3 { margin-top: calc(6 * var(--u)); font-family: var(--font-heading); font-weight: 600; font-size: max(17px, calc(34 * var(--u))); transform: none; color: var(--text); }
+.timeline p { margin: calc(8 * var(--u)) 0 0; font-size: max(14px, calc(24 * var(--u))); line-height: 1.55; color: #bdbcb8; }
+
+/* Games strip: small arches linking back to the games */
+.about-games { padding: 0 clamp(1rem, 4vw, 3rem) calc(150 * var(--u)); text-align: center; }
+.about-games__row {
+  display: grid;
+  grid-template-columns: repeat(3, calc(260 * var(--u)));
+  justify-content: center;
+  gap: calc(90 * var(--u));
+}
+.about-games a { display: grid; justify-items: center; gap: calc(12 * var(--u)); text-decoration: none; color: var(--text); }
+.about-games .arch { width: 100%; }
+.about-games h3 { font-size: max(28px, calc(64 * var(--u))); line-height: 1; color: #d4d3cf; }
+.about-games a:hover h3 { color: #fff; }
+.about-games a:focus-visible { outline: 2px solid var(--gold); outline-offset: 6px; }
+
+/* Inner-page sign-up: no background image */
+.signup--plain { min-height: 0; }
+.signup--plain::before { display: none; }
+
+/* ================= STACKED LAYOUT ================= */
+@media (max-width: 900px) {
+  .page-head { padding-top: 7rem; }
+  .featured, .about-intro { grid-template-columns: minmax(0, 24rem); justify-content: center; gap: 2.5rem; padding-bottom: 4rem; }
+  .feed__list::before, .entry::before { left: 0.75rem; }
+  .entry { grid-template-columns: 1fr; padding-left: 2.5rem; padding-bottom: 3rem; }
+  .entry time { text-align: left; padding: 0 0 0.25rem; }
+  .pillars { grid-template-columns: minmax(0, 24rem); row-gap: 2.5rem; padding-bottom: 4rem; }
+  .pillar + .pillar { border-left: 0; border-top: 1px solid #343638; padding-top: 2.5rem; }
+  .timeline::before { left: 0.75rem; }
+  .timeline li, .timeline li:nth-child(even), .timeline li:nth-child(odd) { width: auto; margin-left: 0; padding: 0 0 2rem 2.5rem; text-align: left; }
+  .timeline li:nth-child(odd)::before, .timeline li:nth-child(even)::before { left: 0.75rem; right: auto; transform: translateX(-50%); }
+  .about-games__row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+}

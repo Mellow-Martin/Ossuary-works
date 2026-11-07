@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ossuary Works</title>
+  <meta name="description" content="Three dark fantasy games you can play in your browser: Katabasis, Wake and Oathless.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/motion.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <script src="js/cart.js" defer></script>
+  <script src="js/ambient.js" defer></script>
+  <script src="js/particles.js" defer></script>
+  <script src="js/router.js" defer></script>
+  <script>
+    // Turn motion on before first paint (so the hero doesn't flash before its ink reveal),
+    // unless the visitor prefers reduced motion. Fail-safe: show the hero after 4s regardless.
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('motion');
+      setTimeout(function () { document.documentElement.classList.add('ink-failsafe'); }, 4000);
+    }
+  </script>
+  <script src="js/motion.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Sticky menu: kept outside the sections so it always stays on top of them -->
+  <nav class="nav" aria-label="Main">
+      <a href="index.html" class="logo" aria-label="Ossuary Works home">OS</a>
+      <ul>
+        <li><a href="#games">Games</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="#shop">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li>
+          <button type="button" class="cart" aria-label="Cart, 0 items" aria-controls="cart-drawer" aria-expanded="false">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8Z"/>
+              <path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>
+            </svg>
+            <span class="cart__count" aria-hidden="true">0</span>
+          </button>
+        </li>
+      </ul>
+  </nav>
+  <p id="cart-status" class="sr-only" aria-live="polite"></p>
+
+  <!-- ================= CART DRAWER ================= -->
+  <div class="drawer-scrim" data-cart-close hidden></div>
+  <aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+    <header class="drawer__head">
+      <h2 id="drawer-title" class="drawer__title">Your cart</h2>
+      <button type="button" class="drawer__close" data-cart-close aria-label="Close cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+
+    <div class="drawer__body">
+      <ul class="drawer__items" aria-label="Items in your cart"></ul>
+      <div class="drawer__empty">
+        <p>Your cart is empty.</p>
+        <a href="#products" class="link link--gold" data-cart-close>Browse the armory</a>
+      </div>
+    </div>
+
+    <footer class="drawer__foot">
+      <dl class="drawer__totals">
+        <div><dt>Subtotal</dt><dd class="drawer__subtotal">$0</dd></div>
+        <div class="drawer__savings-row"><dt>You save</dt><dd class="drawer__savings">$0</dd></div>
+      </dl>
+      <p class="drawer__note">Shipping and taxes are calculated at checkout.</p>
+      <button type="button" class="btn btn--red btn--block drawer__checkout">Checkout</button>
+      <p class="drawer__msg" aria-live="polite"></p>
+      <button type="button" class="drawer__continue" data-cart-close>Continue shopping</button>
+    </footer>
+  </aside>
+
+  <!-- ================= HERO (mockup 01) ================= -->
+  <header class="hero" data-ink-load="2">
+    <div class="hero__scene" data-depth="0.35">
+      <img class="hero__bg" src="assets/Exports/ossuary-home-banner-image.png" alt="" fetchpriority="high">
+      <span class="hero__glow" aria-hidden="true"></span>
+    </div>
+
+    <div class="rail rail--left hero__rail-l" aria-hidden="true">
+      <span>Katabasis</span><span>Project Wake</span><span>Oathless</span>
+    </div>
+    <div class="rail rail--right hero__rail-r" aria-hidden="true">
+      <span>Games played in browser</span>
+    </div>
+
+    <h1 class="hero__title" data-depth="0.18"><img src="assets/Exports/Ossuary.png" alt="Ossuary Works" width="822" height="300"></h1>
+    <img class="hero__knight" data-depth="0.05" src="assets/Exports/knight-hero-main-banner.png" alt="" width="360" height="721">
+
+    <div class="hero__intro">
+      <p>Three dark fantasy games.<br>Play them in your browser,<br>nothing to install.</p>
+      <div class="actions">
+        <a class="btn btn--gold" href="#games">Choose a game</a>
+        <a class="link link--gold" href="#signup">Get updates</a>
+      </div>
+    </div>
+
+    <span class="cross-drop hero__drop" aria-hidden="true"></span>
+  </header>
+
+  <main id="main">
+
+    <!-- ================= GAMES (mockup 02) ================= -->
+    <section class="games" id="games" aria-labelledby="games-title" data-ink="1">
+      <img class="games__smoke" src="assets/Exports/tex-smoke-b.png" alt="" loading="lazy">
+      <h2 id="games-title" class="games__title bleed">Small games,<br>made in the dark</h2>
+      <p class="games__lede" id="about">Ossuary Works builds short, punishing fantasy games<br>that run in a browser tab. Your progress is saved on your own device,<br>so you can close the tab and come back to the same floor.</p>
+
+      <div class="games__cols">
+        <article class="game">
+          <div class="arch">
+            <img class="arch__art" src="assets/Exports/katabasis-game-arch-image.png" alt="Katabasis key art: a lone knight before a burning pit under a dragon" loading="lazy" width="358" height="556">
+            <img class="arch__frame" src="assets/Exports/arch-frame.png" alt="" loading="lazy" width="386" height="576">
+          </div>
+          <p class="status status--early"><img src="assets/Exports/early-access-star.png" alt="" width="48" height="49">Early Access</p>
+          <h3>Katabasis</h3>
+          <p class="game__desc">A short, turn-based mobile game.<br>Win each fight, salvage gear from what<br>you defeat, and go one floor deeper.</p>
+          <a href="https://mellow-martin.github.io/Emberfall/" class="btn btn--red btn--wide" target="_blank" rel="noopener">Play now<span class="sr-only"> (opens in a new tab)</span></a>
+        </article>
+
+        <article class="game game--low">
+          <div class="arch">
+            <img class="arch__art" src="assets/Exports/oathless-game-arch-image.png" alt="Oathless art: a hooded knight with sword and shield walking through a graveyard" loading="lazy" width="359" height="536">
+            <img class="arch__frame" src="assets/Exports/arch-frame.png" alt="" loading="lazy" width="386" height="576">
+          </div>
+          <p class="status"><img src="assets/Exports/in-development-star.png" alt="" width="48" height="49">In Development</p>
+          <h3>Oathless</h3>
+          <p class="game__desc">Turn-based combat and gathering<br>in a land that broke its vows.<br>Follow along as it's built.</p>
+          <a href="#signup" class="btn btn--red btn--wide">Get notified</a>
+        </article>
+
+        <article class="game">
+          <div class="arch">
+            <img class="arch__art" src="assets/Exports/wake-game-arch-image.png" alt="Wake art: a knight raising a sword on a tiled floor as hooded shadows close in" loading="lazy" width="359" height="536">
+            <img class="arch__frame" src="assets/Exports/arch-frame.png" alt="" loading="lazy" width="386" height="576">
+          </div>
+          <p class="status"><img src="assets/Exports/in-development-star.png" alt="" width="48" height="49">In Development</p>
+          <h3>Wake</h3>
+          <p class="game__desc">Point and click to hold out<br>against each wave. Random<br>upgrades as you level up.</p>
+          <a href="#signup" class="btn btn--red btn--wide">Get notified</a>
+        </article>
+      </div>
+    </section>
+
+    <!-- ================= ARMORY (mockup 03) ================= -->
+    <section class="armory" id="shop" aria-labelledby="armory-title" data-ink="2">
+      <img class="armory__bg" data-depth="0.15" src="assets/Exports/armory-image.png" alt="" loading="lazy">
+      <span class="cross-drop armory__drop" aria-hidden="true"></span>
+
+      <div class="rail rail--left armory__rail-l" aria-hidden="true">
+        <span>Katabasis</span><span>Project Wake</span><span>Oathless</span>
+      </div>
+      <div class="rail rail--right armory__rail-r" aria-hidden="true">
+        <span>Games played in browser</span>
+      </div>
+
+      <img class="armory__knight" data-depth="-0.06" src="assets/Exports/knight-hero-armory.png" alt="" loading="lazy" width="520" height="876">
+
+      <div class="armory__intro">
+        <h2 id="armory-title" class="armory__title bleed">Armory</h2>
+        <p>The rarest drops aren't<br>in the game, get your<br>dark fantasy apparel today!</p>
+        <div class="actions">
+          <a class="link link--red" href="#signup">Get updates</a>
+          <a class="btn btn--red" href="#products">Shop now</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRODUCTS (mockup 04) ================= -->
+    <section class="products" id="products" aria-label="Apparel" data-ink="3">
+      <article class="product" data-id="oathbound-hoodie" data-name="Oathbound" data-kind="Hoodie" data-price="75" data-was="95" data-thumb="assets/shop/oathbound-hoodie-black-cut.png">
+        <!-- Hovering the photo reveals the worn shot; Quick add sits along its bottom edge -->
+        <figure class="product__media">
+          <img class="product__img" src="assets/shop/oathbound-hoodie-black-cut.png" alt="Oathbound hoodie in washed black, back view: red blackletter title over a knight on a misty ridge" loading="lazy">
+          <img class="product__worn" src="assets/shop/oathbound-hoodie-worn.webp" alt="" loading="lazy" width="896" height="1120">
+          <button type="button" class="quick-add">Quick add</button>
+        </figure>
+        <p class="product__kind">Hoodie</p>
+        <h3>Oathbound</h3>
+        <p class="price"><s><span class="sr-only">Was </span>$95</s> <span><span class="sr-only">Now </span>$75</span></p>
+
+        <fieldset class="opt">
+          <legend>Size</legend>
+          <div class="sizes">
+            <label><input type="radio" name="hoodie-size" value="S"><span>S</span></label>
+            <label><input type="radio" name="hoodie-size" value="M"><span>M</span></label>
+            <label><input type="radio" name="hoodie-size" value="L" checked><span>L</span></label>
+            <label><input type="radio" name="hoodie-size" value="XL"><span>XL</span></label>
+            <label><input type="radio" name="hoodie-size" value="XXL"><span>XXL</span></label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="btn btn--red btn--block add-to-cart">Add to cart</button>
+        <ul class="specs">
+          <li>Oversized fit, dropped shoulder</li>
+          <li>Heavyweight stone-wash fleece</li>
+          <li>Large back print, small chest mark</li>
+        </ul>
+      </article>
+
+      <article class="product" data-id="endure-tee" data-name="Endure" data-kind="Tee" data-price="40" data-was="65" data-thumb="assets/shop/oath-endures-tee-black-cut.png">
+        <figure class="product__media">
+          <img class="product__img" src="assets/shop/oath-endures-tee-black-cut.png" alt="Endure tee in washed black, back view: red cross and filigree above a knight resting beside his sword" loading="lazy">
+          <img class="product__worn" src="assets/shop/oath-endures-tee-worn.webp" alt="" loading="lazy" width="896" height="1120">
+          <button type="button" class="quick-add">Quick add</button>
+        </figure>
+        <p class="product__kind">Tee</p>
+        <h3>Endure</h3>
+        <p class="price"><s><span class="sr-only">Was </span>$65</s> <span><span class="sr-only">Now </span>$40</span></p>
+
+        <fieldset class="opt">
+          <legend>Size</legend>
+          <div class="sizes">
+            <label><input type="radio" name="tee-size" value="S"><span>S</span></label>
+            <label><input type="radio" name="tee-size" value="M"><span>M</span></label>
+            <label><input type="radio" name="tee-size" value="L" checked><span>L</span></label>
+            <label><input type="radio" name="tee-size" value="XL"><span>XL</span></label>
+            <label><input type="radio" name="tee-size" value="XXL"><span>XXL</span></label>
+          </div>
+        </fieldset>
+
+        <button type="button" class="btn btn--red btn--block add-to-cart">Add to cart</button>
+        <ul class="specs">
+          <li>Oversized fit, dropped shoulder</li>
+          <li>Heavyweight stone-wash cotton</li>
+          <li>Large back print, small chest mark</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- ================= SIGNUP + FOOTER (mockup 05) ================= -->
+    <section class="signup" id="signup" aria-labelledby="signup-title" data-ink="1">
+      <img class="signup__bg" src="assets/Exports/footer-image.png" alt="" loading="lazy">
+      <h2 id="signup-title" class="signup__title bleed">Hear when a game<br>or merch launches</h2>
+      <p class="signup__lede">One email per release or shop drop. Nothing else.</p>
+      <form class="signup__form" novalidate>
+        <label for="email">Email address</label>
+        <div class="signup__row">
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="your@example.com">
+          <button class="btn btn--red" type="submit">Sign up</button>
+        </div>
+        <output aria-live="polite"></output>
+      </form>
+
+      <footer class="foot">
+        <a href="index.html" class="logo logo--foot" aria-label="Ossuary Works home">OS</a>
+        <ul>
+          <li><a href="#games">Games</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+        <p>Ossuary Works. All rights reserved 2026 &copy;</p>
+      </footer>
+    </section>
+  </main>
+
+  <script src="js/site.js"></script>
+</body>
+</html>

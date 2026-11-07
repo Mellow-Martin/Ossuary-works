@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About · Ossuary Works</title>
+  <meta name="description" content="Ossuary Works makes short, punishing dark fantasy games that run in your browser.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/motion.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <script>
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('motion');
+    }
+  </script>
+  <script src="js/motion.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/ambient.js" defer></script>
+  <script src="js/particles.js" defer></script>
+  <script src="js/router.js" defer></script>
+</head>
+<body class="inner-page">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Main">
+    <a href="index.html" class="logo" aria-label="Ossuary Works home">OS</a>
+    <ul>
+      <li><a href="index.html#games">Games</a></li>
+      <li><a href="news.html">News</a></li>
+      <li><a href="index.html#shop">Shop</a></li>
+      <li><a href="about.html" aria-current="page">About</a></li>
+      <li>
+        <button type="button" class="cart" aria-label="Cart, 0 items" aria-controls="cart-drawer" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8Z"/>
+            <path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>
+          </svg>
+          <span class="cart__count" aria-hidden="true">0</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <p id="cart-status" class="sr-only" aria-live="polite"></p>
+
+  <div class="drawer-scrim" data-cart-close hidden></div>
+  <aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+    <header class="drawer__head">
+      <h2 id="drawer-title" class="drawer__title">Your cart</h2>
+      <button type="button" class="drawer__close" data-cart-close aria-label="Close cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+    <div class="drawer__body">
+      <ul class="drawer__items" aria-label="Items in your cart"></ul>
+      <div class="drawer__empty">
+        <p>Your cart is empty.</p>
+        <a href="index.html#products" class="link link--gold">Browse the armory</a>
+      </div>
+    </div>
+    <footer class="drawer__foot">
+      <dl class="drawer__totals">
+        <div><dt>Subtotal</dt><dd class="drawer__subtotal">$0</dd></div>
+        <div class="drawer__savings-row"><dt>You save</dt><dd class="drawer__savings">$0</dd></div>
+      </dl>
+      <p class="drawer__note">Shipping and taxes are calculated at checkout.</p>
+      <button type="button" class="btn btn--red btn--block drawer__checkout">Checkout</button>
+      <p class="drawer__msg" aria-live="polite"></p>
+      <button type="button" class="drawer__continue" data-cart-close>Continue shopping</button>
+    </footer>
+  </aside>
+
+  <main id="main">
+
+    <!-- ================= PAGE HEADER ================= -->
+    <header class="page-head">
+      <div class="rail rail--left" aria-hidden="true">
+        <span>Katabasis</span><span>Project Wake</span><span>Oathless</span>
+      </div>
+      <div class="rail rail--right" aria-hidden="true">
+        <span>Games played in browser</span>
+      </div>
+
+      <span class="cross-drop" aria-hidden="true"></span>
+      <p class="page-head__kicker">About the studio</p>
+      <h1 class="page-head__title bleed">Ossuary Works</h1>
+      <p class="page-head__lede">Small games, made in the dark. Short, punishing fantasy you can play in a browser tab.</p>
+    </header>
+
+    <!-- ================= INTRO ================= -->
+    <section class="about-intro" aria-labelledby="intro-title" data-ink="3">
+      <div class="arch">
+        <img class="arch__art arch__art--baked" src="assets/about/knight-crowned-arch.png" alt="A crowned knight raising a sword over a field of broken shields under a red sky">
+        <img class="arch__frame" src="assets/Exports/arch-frame.png" alt="" width="386" height="576">
+      </div>
+      <div>
+        <h2 id="intro-title" class="bleed">Why we make them</h2>
+        <p>Ossuary Works started with one question: what if a dark fantasy game fit in a lunch break? No launcher, no install, no forty-hour campaign. Just a tab, a fight, and a reason to come back tomorrow.</p>
+        <p>Every game we make is short enough to finish and hard enough to remember. Your progress saves on your own device, so you can close the tab mid-descent and pick up on the same floor.</p>
+        <p>Between games we make the things we'd want to wear: heavyweight prints of the knights, saints and ruins from our worlds.</p>
+        <p class="signature">The Ossuary Works team</p>
+      </div>
+    </section>
+
+    <!-- ================= PILLARS ================= -->
+    <section class="pillars" aria-label="What we make" data-ink="1">
+      <div class="pillar">
+        <span class="pillar__star" aria-hidden="true"></span>
+        <h3>Short</h3>
+        <p>Each game can be finished in an evening. Runs last minutes, not hours.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar__star" aria-hidden="true"></span>
+        <h3>Punishing</h3>
+        <p>Turn-based, but unforgiving. Every choice costs something, and the floor below remembers.</p>
+      </div>
+      <div class="pillar">
+        <span class="pillar__star" aria-hidden="true"></span>
+        <h3>In your browser</h3>
+        <p>Open a link and play, on a laptop or a phone. Nothing to download, nothing to update.</p>
+      </div>
+    </section>
+
+    <!-- ================= TIMELINE ================= -->
+    <section class="timeline-wrap" aria-labelledby="timeline-title" data-ink="2">
+      <h2 id="timeline-title" class="feed__title bleed">So far</h2>
+      <ol class="timeline">
+        <li>
+          <time datetime="2025">2025</time>
+          <h3>The first ember</h3>
+          <p>Katabasis starts as a weekend prototype: one floor, one sword, one boss.</p>
+        </li>
+        <li>
+          <time datetime="2026-09">Sep 2026</time>
+          <h3>Katabasis enters early access</h3>
+          <p>Three floors, eighteen pieces of gear, playable in any browser.</p>
+        </li>
+        <li>
+          <time datetime="2026-09">Sep 2026</time>
+          <h3>Fallen Order // 02</h3>
+          <p>The first apparel drop: the Oathbound hoodie and the Endure tee.</p>
+        </li>
+        <li>
+          <time datetime="2026-10">Oct 2026</time>
+          <h3>Wake and Oathless in the forge</h3>
+          <p>Two new games enter development. Follow both in the devlog.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ================= GAMES ================= -->
+    <section class="about-games" aria-labelledby="about-games-title" data-ink="3">
+      <h2 id="about-games-title" class="feed__title bleed">The games</h2>
+      <div class="about-games__row">
+        <a href="index.html#games">
+          <span class="arch">
+            <img class="arch__art" src="assets/Exports/katabasis-game-arch-image.png" alt="" width="358" height="556">
+            <img class="arch__frame" src="assets/Exports/arch-frame.png" alt="" width="386" height="576">
+          </span>
+          <span class="tag tag--gold"><img src="assets/Exports/early-access-star.png" alt="" width="48" height="49">Early Access</span>
+          <h3>Katabasis</h3>
+        </a>
+        <a href="index.html#games">
+          <span class="arch">
+            <img class="arch__art" src="assets/Exports/oathless-game-arch-image.png" alt="" width="359" height="536">
+            <img class="arch__frame" src="assets/Exports/arch-frame.png" alt="" width="386" height="576">
+          </span>
+          <span class="tag"><img src="assets/Exports/in-development-star.png" alt="" width="48" height="49">In Development</span>
+          <h3>Oathless</h3>
+        </a>
+        <a href="index.html#games">
+          <span class="arch">
+            <img class="arch__art" src="assets/Exports/wake-game-arch-image.png" alt="" width="359" height="536">
+            <img class="arch__frame" src="assets/Exports/arch-frame.png" alt="" width="386" height="576">
+          </span>
+          <span class="tag"><img src="assets/Exports/in-development-star.png" alt="" width="48" height="49">In Development</span>
+          <h3>Wake</h3>
+        </a>
+      </div>
+    </section>
+
+    <!-- ================= SIGN-UP + FOOTER ================= -->
+    <section class="signup signup--plain" id="signup" aria-labelledby="signup-title" data-ink="2">
+      <h2 id="signup-title" class="signup__title bleed">Hear when a game<br>or merch launches</h2>
+      <p class="signup__lede">One email per release or shop drop. Nothing else.</p>
+      <form class="signup__form" novalidate>
+        <label for="email">Email address</label>
+        <div class="signup__row">
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="your@example.com">
+          <button class="btn btn--red" type="submit">Sign up</button>
+        </div>
+        <output aria-live="polite"></output>
+      </form>
+
+      <footer class="foot">
+        <a href="index.html" class="logo logo--foot" aria-label="Ossuary Works home">OS</a>
+        <ul>
+          <li><a href="index.html#games">Games</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="index.html#shop">Shop</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+        <p>Ossuary Works. All rights reserved 2026 &copy;</p>
+      </footer>
+    </section>
+  </main>
+
+  <script src="js/site.js"></script>
+</body>
+</html>

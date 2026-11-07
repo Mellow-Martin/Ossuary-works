@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>News · Ossuary Works</title>
+  <meta name="description" content="Patch notes and devlogs for Katabasis, Oathless and Wake.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/motion.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <script>
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('motion');
+    }
+  </script>
+  <script src="js/motion.js" defer></script>
+  <script src="js/cart.js" defer></script>
+  <script src="js/ambient.js" defer></script>
+  <script src="js/particles.js" defer></script>
+  <script src="js/router.js" defer></script>
+</head>
+<body class="inner-page">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <nav class="nav" aria-label="Main">
+    <a href="index.html" class="logo" aria-label="Ossuary Works home">OS</a>
+    <ul>
+      <li><a href="index.html#games">Games</a></li>
+      <li><a href="news.html" aria-current="page">News</a></li>
+      <li><a href="index.html#shop">Shop</a></li>
+      <li><a href="about.html">About</a></li>
+      <li>
+        <button type="button" class="cart" aria-label="Cart, 0 items" aria-controls="cart-drawer" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 8h14l-1.2 11.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8Z"/>
+            <path d="M9 8V6.5a3 3 0 0 1 6 0V8"/>
+          </svg>
+          <span class="cart__count" aria-hidden="true">0</span>
+        </button>
+      </li>
+    </ul>
+  </nav>
+  <p id="cart-status" class="sr-only" aria-live="polite"></p>
+
+  <div class="drawer-scrim" data-cart-close hidden></div>
+  <aside class="drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" hidden>
+    <header class="drawer__head">
+      <h2 id="drawer-title" class="drawer__title">Your cart</h2>
+      <button type="button" class="drawer__close" data-cart-close aria-label="Close cart">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </header>
+    <div class="drawer__body">
+      <ul class="drawer__items" aria-label="Items in your cart"></ul>
+      <div class="drawer__empty">
+        <p>Your cart is empty.</p>
+        <a href="index.html#products" class="link link--gold">Browse the armory</a>
+      </div>
+    </div>
+    <footer class="drawer__foot">
+      <dl class="drawer__totals">
+        <div><dt>Subtotal</dt><dd class="drawer__subtotal">$0</dd></div>
+        <div class="drawer__savings-row"><dt>You save</dt><dd class="drawer__savings">$0</dd></div>
+      </dl>
+      <p class="drawer__note">Shipping and taxes are calculated at checkout.</p>
+      <button type="button" class="btn btn--red btn--block drawer__checkout">Checkout</button>
+      <p class="drawer__msg" aria-live="polite"></p>
+      <button type="button" class="drawer__continue" data-cart-close>Continue shopping</button>
+    </footer>
+  </aside>
+
+  <main id="main">
+
+    <!-- ================= PAGE HEADER ================= -->
+    <header class="page-head">
+      <div class="rail rail--left" aria-hidden="true">
+        <span>Katabasis</span><span>Project Wake</span><span>Oathless</span>
+      </div>
+      <div class="rail rail--right" aria-hidden="true">
+        <span>Patch notes and devlogs</span>
+      </div>
+
+      <span class="cross-drop" aria-hidden="true"></span>
+      <p class="page-head__kicker">From the forge</p>
+      <h1 class="page-head__title bleed">News</h1>
+      <p class="page-head__lede">Patch notes, devlogs and drops from all three games. Newest first.</p>
+
+      <div class="filters" role="group" aria-label="Show posts from">
+        <button type="button" aria-pressed="true" data-filter="all">All</button>
+        <button type="button" aria-pressed="false" data-filter="katabasis">Katabasis</button>
+        <button type="button" aria-pressed="false" data-filter="oathless">Oathless</button>
+        <button type="button" aria-pressed="false" data-filter="wake">Wake</button>
+        <button type="button" aria-pressed="false" data-filter="studio">Studio</button>
+      </div>
+    </header>
+
+    <!-- ================= LATEST PATCH + ALL POSTS =================
+         Filled in by js/news.js from content/news.txt. To add or edit a post, edit that file. -->
+    <section class="featured" id="featured" aria-labelledby="featured-title" data-ink="3" hidden></section>
+
+    <section class="feed" aria-labelledby="feed-title" data-ink="1">
+      <h2 id="feed-title" class="feed__title bleed">All posts</h2>
+      <ol class="feed__list"></ol>
+      <p class="feed__empty" hidden>No posts for this game yet.</p>
+      <noscript><p class="feed__empty">Turn on JavaScript to read the news.</p></noscript>
+    </section>
+
+    <!-- ================= SIGN-UP + FOOTER ================= -->
+    <section class="signup signup--plain" id="signup" aria-labelledby="signup-title" data-ink="2">
+      <h2 id="signup-title" class="signup__title bleed">Never miss a patch</h2>
+      <p class="signup__lede">One email per release or shop drop. Nothing else.</p>
+      <form class="signup__form" novalidate>
+        <label for="email">Email address</label>
+        <div class="signup__row">
+          <input id="email" name="email" type="email" required autocomplete="email" placeholder="your@example.com">
+          <button class="btn btn--red" type="submit">Sign up</button>
+        </div>
+        <output aria-live="polite"></output>
+      </form>
+
+      <footer class="foot">
+        <a href="index.html" class="logo logo--foot" aria-label="Ossuary Works home">OS</a>
+        <ul>
+          <li><a href="index.html#games">Games</a></li>
+          <li><a href="news.html">News</a></li>
+          <li><a href="index.html#shop">Shop</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+        <p>Ossuary Works. All rights reserved 2026 &copy;</p>
+      </footer>
+    </section>
+  </main>
+
+  <script src="js/site.js"></script>
+  <script src="js/news.js"></script>
+</body>
+</html>

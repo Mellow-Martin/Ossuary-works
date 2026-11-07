@@ -1,0 +1,121 @@
+HOW TO ADD A NEWS POST
+---------------------------------------------------------------------
+Everything above the line that says POSTS START HERE is instructions;
+the site ignores it.
+
+1. Copy the example below (from its ==== line down to the end of its text).
+2. Paste it anywhere below POSTS START HERE. Order doesn't matter:
+   the site sorts posts by date, newest first.
+3. Edit the details, save this file, then rebuild the upload folder:
+   powershell -NoProfile -ExecutionPolicy Bypass -File tools/site-files.ps1 -Package
+
+The labelled lines at the top of a post:
+  title:    the headline                                  (required)
+  date:     year-month-day, like 2026-11-02               (required)
+  game:     katabasis, oathless, wake or studio           (required)
+  type:     patch, devlog or news                         (required)
+  version:  like v0.4.2                                   (optional)
+  link:     button text | web address                     (optional)
+
+After the labelled lines, leave one empty line, then write the post:
+  - The first paragraph is the summary everyone sees.
+  - Anything after it is tucked behind a "Read more" button.
+  - A line starting with ## is a small heading, like ## New or ## Fixed.
+  - A line starting with - is a bullet point.
+  - Links look like [See the drop](index.html#products).
+
+The newest "patch" post is shown large at the top of the News page.
+
+EXAMPLE (copy from the next ==== line):
+
+====
+title: Your headline here
+date: 2026-12-01
+game: katabasis
+type: patch
+version: v0.5.0
+
+One or two sentences everyone sees.
+
+## New
+- Something new.
+
+## Fixed
+- Something fixed.
+
+
+POSTS START HERE (don't delete this line)
+---------------------------------------------------------------------
+
+====
+title: The Ashen Tier
+date: 2026-11-02
+game: katabasis
+type: patch
+version: v0.4.2
+link: Play Katabasis | https://mellow-martin.github.io/Emberfall/
+
+A new tier of gear, a harder third floor, and a long list of fixes from early access feedback. Your saves carry over; nothing to reinstall.
+
+## New
+- Ashen gear tier: six new pieces that trade defence for burn damage.
+- Third-floor boss now has a second phase below half health.
+- Salvage screen shows what each piece does before you take it.
+
+## Changed
+- Floor three enemies hit harder but drop gear more often.
+- Turn order is shown above the battlefield.
+
+## Fixed
+- Closing the tab mid-fight no longer loses that floor's loot.
+- Shield block no longer triggers twice on the same attack.
+- Text no longer overlaps on small phone screens.
+
+
+====
+title: How the waves work
+date: 2026-10-20
+game: wake
+type: devlog
+
+Every run is a ring of tiles and a clock. Each wave grows from the edges inward, and the path you click decides which tiles you can still stand on when it arrives.
+
+We tried timed waves first and they felt like waiting. Now a wave starts the moment you finish your path, so the pace is yours. Upgrades are offered every third wave, three at random, and you keep one. The demo stops at wave twelve; the full game goes on until you fall.
+
+
+====
+title: First look at gathering
+date: 2026-10-05
+game: oathless
+type: devlog
+
+Between fights you scavenge the battlefield: iron, cloth, bone and relics. What you carry back decides what the camp smith can make before the next march.
+
+Gathering costs time, and time is what the enemy uses to regroup. Each search turn shortens the rest before the next battle, so you're always choosing between a better blade and a fresher company. Early screenshots coming in the next post.
+
+
+====
+title: Early access opens
+date: 2026-09-18
+game: katabasis
+type: patch
+version: v0.4.0
+
+Katabasis is playable in your browser. Three floors, eighteen pieces of gear, and one way down.
+
+## New
+- Floors one to three, with a boss at the end of each.
+- Progress saves in your browser after every fight.
+
+## Known issues
+- Sound can lag on older phones.
+
+
+====
+title: Fallen Order // 02
+date: 2026-09-01
+game: studio
+type: news
+link: See the drop | index.html#products
+
+The Oathbound hoodie and the Endure tee are in the armory: heavyweight stone-wash with full back prints.

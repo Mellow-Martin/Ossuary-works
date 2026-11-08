@@ -34,7 +34,8 @@
     var reachX = cx;
     var reachY = Math.max(1, (visBottom - visTop) / 2);
     // Dense core is ~30% of the image's height; the soft fringe beyond it fades the edge
-    var h = Math.pow(p, 1.3) * 3.6 * Math.max(reachY, reachX / SMEAR_STRETCH);
+    // Slow start (power 1.8) so the smear's edge stays on screen through more of the scroll
+    var h = Math.pow(p, 1.8) * 3.6 * Math.max(reachY, reachX / SMEAR_STRETCH);
     var w = h * SMEAR_STRETCH;
     s.style.setProperty('--ink-w', w + 'px');
     s.style.setProperty('--ink-h', h + 'px');
@@ -47,7 +48,7 @@
       if (!s.classList.contains('ink-on') || s.classList.contains('ink-done')) return;
       var r = s.getBoundingClientRect();
       // 0 when the section's top touches the bottom of the screen, 1 when it reaches 25% from the top
-      var p = (vh - r.top) / (vh * 0.75);
+      var p = (vh - r.top) / (vh * 0.85);
       // Done once it reaches that point, or its bottom is on screen (last section can't scroll higher)
       if (p >= 1 || r.bottom <= vh + 1) { s.classList.add('ink-done'); return; }
       paintMask(s, Math.max(0, p), r, vh);

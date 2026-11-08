@@ -146,6 +146,7 @@
       if (window.OssuaryNews) window.OssuaryNews.init();
       if (window.OssuaryMotion) window.OssuaryMotion.init();
       if (window.OssuaryParticles) window.OssuaryParticles.init();
+      if (window.OssuaryTextFx) window.OssuaryTextFx.init();
 
       // Fail-safe: never leave the hero hidden if its reveal can't run
       setTimeout(function () {

@@ -231,6 +231,7 @@
         wireFilters();
         if (window.OssuaryMotion) window.OssuaryMotion.init(); // new sections join the ink reveal
         if (window.OssuaryParticles) window.OssuaryParticles.init(); // and get particles sized to fit
+        if (window.OssuaryTextFx) window.OssuaryTextFx.init(); // featured "Play" button gets brackets
       })
       .catch(function () {
         empty.textContent = location.protocol === 'file:'

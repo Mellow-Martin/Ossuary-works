@@ -1,0 +1,123 @@
+/* =====================================================================
+   TEXT FX: heading scramble, reactive ticker, commerce micro-moments.
+   Driven by js/text-fx.js. UI/commerce motion uses hard steps();
+   atmospheric motion (ticker drift) is smooth. Reduced motion: see bottom.
+   ===================================================================== */
+
+/* Pirata One and Grenze contain no Greek letters or Roman numerals, so the
+   scrambling glyphs use a deliberate fallback, requested for only these 17
+   characters: Noto Serif (Greek) and Noto Sans Symbols (Roman numerals). */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Serif:wght@700&family=Noto+Sans+Symbols:wght@700&text=%CE%93%CE%94%CE%98%CE%9B%CE%9E%CE%A0%CE%A3%CE%A6%CE%A8%CE%A9%E2%85%A0%E2%85%A4%E2%85%A9%E2%85%AC%E2%85%AD%E2%85%AE%E2%85%AF&display=swap");
+
+/* ---------- 1. Heading scramble ---------- */
+.fx-word { white-space: nowrap; }
+/* Letters stay inline (with kerning) while line breaks are measured, then lock in place */
+.fx-locked .fx-ch { display: inline-block; text-align: center; }
+.fx-glyph {
+  font-family: "Noto Serif", "Noto Sans Symbols", Georgia, serif;
+  font-weight: 700;
+  font-size: 0.78em;      /* the fallback runs larger than Pirata One; keep the line steady */
+  line-height: 1;
+  color: var(--gold);
+}
+
+/* ---------- 3. Reactive ticker (rails: Katabasis / Project Wake / Oathless) ---------- */
+.rail--ticker { justify-content: center; }
+.ticker {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  /* soft fade at both ends; a gradient mask (not an image), so it works everywhere */
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+          mask-image: linear-gradient(to bottom, transparent, #000 14%, #000 86%, transparent);
+}
+.ticker__track, .ticker__ghost {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  will-change: transform;
+}
+.ticker__track span, .ticker__ghost span {
+  /* physical top/bottom: the text runs vertically, so "block" padding would go sideways */
+  padding-top: max(26px, calc(64 * var(--u)));
+  padding-bottom: max(26px, calc(64 * var(--u)));
+}
+.rail--left.rail--ticker .ticker span { transform: rotate(180deg); } /* reads bottom to top, as before */
+
+/* Glitch: ~150ms of RGB split + one horizontal slice knocked sideways, then snap back */
+.ticker__ghost { display: none; color: #ff2b3a; }
+.ticker.is-glitch .ticker__track { animation: fx-rgb 150ms steps(3, jump-none) both; }
+.ticker.is-glitch .ticker__ghost { display: flex; animation: fx-slice 150ms steps(3, jump-none) both; }
+@keyframes fx-rgb {
+  0%   { text-shadow: -2px 0 #ff2b3a, 2px 0 #00e5ff; }
+  50%  { text-shadow: 3px 0 #ff2b3a, -3px 0 #00e5ff; }
+  100% { text-shadow: -1px 0 #ff2b3a, 1px 0 #00e5ff; }
+}
+@keyframes fx-slice {
+  0%   { clip-path: inset(22% 0 63% 0); translate: 4px 0; }
+  50%  { clip-path: inset(58% 0 30% 0); translate: -5px 0; }
+  100% { clip-path: inset(40% 0 52% 0); translate: 3px 0; }
+}
+
+/* ---------- 5a. Price: strikethrough draws, then "Now" snaps in ---------- */
+.fx-on .product .price s { position: relative; text-decoration: none; }
+.fx-on .product .price s::after {
+  content: "";
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  top: 52%;
+  height: 2px;
+  background: currentColor;
+  transform-origin: left center;
+}
+.fx-on .product .price > span:last-child { display: inline-block; transform-origin: left bottom; }
+.price.fx-price-pending s::after { transform: scaleX(0); }
+.price.fx-price-pending > span:last-child { opacity: 0; }
+.price.fx-price-run s::after { animation: fx-strike 300ms steps(6, jump-none) both; }
+.price.fx-price-run > span:last-child { animation: fx-snap 200ms steps(4, jump-none) 300ms both; }
+@keyframes fx-strike { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes fx-snap {
+  0%   { opacity: 0; transform: scale(0.7); }
+  60%  { opacity: 1; transform: scale(1.16); }
+  100% { opacity: 1; transform: scale(1); }   /* hard stop: no settle */
+}
+
+/* ---------- 5b. Cart count odometer ---------- */
+.cart__count { overflow: hidden; }
+.odo { position: relative; display: block; height: 1.5em; line-height: 1.5em; }
+.odo__old, .odo__new { display: block; text-align: center; }
+.odo__new { position: absolute; inset: 0; }
+.odo--up .odo__old   { animation: fx-odo-out-up 240ms steps(4, jump-none) both; }
+.odo--up .odo__new   { animation: fx-odo-in-up 240ms steps(4, jump-none) both; }
+.odo--down .odo__old { animation: fx-odo-out-down 240ms steps(4, jump-none) both; }
+.odo--down .odo__new { animation: fx-odo-in-down 240ms steps(4, jump-none) both; }
+@keyframes fx-odo-out-up   { to { transform: translateY(-100%); } }
+@keyframes fx-odo-in-up    { from { transform: translateY(100%); } to { transform: none; } }
+@keyframes fx-odo-out-down { to { transform: translateY(100%); } }
+@keyframes fx-odo-in-down  { from { transform: translateY(-100%); } to { transform: none; } }
+
+/* ---------- 5c. Button brackets: "Play now" -> "[ Play now ]" ----------
+   The brackets always take up their space (just invisible), so nothing shifts. */
+.fx-btn::before, .fx-btn::after {
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 150ms steps(3, jump-none), transform 150ms steps(3, jump-none);
+}
+.fx-btn::before { content: "[\00a0"; content: "[\00a0" / ""; transform: translateX(0.4em); }
+.fx-btn::after  { content: "\00a0]"; content: "\00a0]" / ""; transform: translateX(-0.4em); }
+.btn:hover .fx-btn::before, .btn:hover .fx-btn::after,
+.btn:focus-visible .fx-btn::before, .btn:focus-visible .fx-btn::after {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Reduced motion: final states, no movement ---------- */
+@media (prefers-reduced-motion: reduce) {
+  /* The scramble, ticker, price draw and odometer are skipped entirely by js/text-fx.js */
+  .fx-btn::before, .fx-btn::after { transition: none; }
+}

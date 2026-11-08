@@ -11,9 +11,11 @@
   <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/motion.css">
   <link rel="stylesheet" href="css/cart.css">
+  <link rel="stylesheet" href="css/text-fx.css">
   <script src="js/cart.js" defer></script>
   <script src="js/ambient.js" defer></script>
   <script src="js/particles.js" defer></script>
+  <script src="js/text-fx.js" defer></script>
   <script src="js/router.js" defer></script>
   <script>
     // Turn motion on before first paint (so the hero doesn't flash before its ink reveal),
@@ -93,7 +95,7 @@
       <span>Games played in browser</span>
     </div>
 
-    <h1 class="hero__title" data-depth="0.18"><img src="assets/Exports/Ossuary.png" alt="Ossuary Works" width="822" height="300"></h1>
+    <h1 class="hero__title" data-depth="0.18">Ossuary<span class="sr-only"> Works</span></h1>
     <img class="hero__knight" data-depth="0.05" src="assets/Exports/knight-hero-main-banner.png" alt="" width="360" height="721">
 
     <div class="hero__intro">
@@ -117,10 +119,10 @@
 
       <div class="games__cols">
         <article class="game">
-          <div class="arch">
-            <img class="arch__art" src="assets/Exports/katabasis-game-arch-image.png" alt="Katabasis key art: a lone knight before a burning pit under a dragon" loading="lazy" width="358" height="556">
+          <a class="arch" href="https://mellow-martin.github.io/Emberfall/" target="_blank" rel="noopener" aria-label="Play Katabasis (opens in a new tab)">
+            <img class="arch__art" src="assets/Exports/katabasis-game-arch-image.png" alt="" loading="lazy" width="358" height="556">
             <img class="arch__frame" src="assets/Exports/arch-frame.png" alt="" loading="lazy" width="386" height="576">
-          </div>
+          </a>
           <p class="status status--early"><img src="assets/Exports/early-access-star.png" alt="" width="48" height="49">Early Access</p>
           <h3>Katabasis</h3>
           <p class="game__desc">A short, turn-based mobile game.<br>Win each fight, salvage gear from what<br>you defeat, and go one floor deeper.</p>
@@ -128,14 +130,14 @@
         </article>
 
         <article class="game game--low">
-          <div class="arch">
-            <img class="arch__art" src="assets/Exports/oathless-game-arch-image.png" alt="Oathless art: a hooded knight with sword and shield walking through a graveyard" loading="lazy" width="359" height="536">
+          <a class="arch" href="https://mellow-martin.github.io/Oathless/" target="_blank" rel="noopener" aria-label="Play Oathless (opens in a new tab)">
+            <img class="arch__art" src="assets/Exports/oathless-game-arch-image.png" alt="" loading="lazy" width="359" height="536">
             <img class="arch__frame" src="assets/Exports/arch-frame.png" alt="" loading="lazy" width="386" height="576">
-          </div>
-          <p class="status"><img src="assets/Exports/in-development-star.png" alt="" width="48" height="49">In Development</p>
+          </a>
+          <p class="status status--early"><img src="assets/Exports/early-access-star.png" alt="" width="48" height="49">Early Access</p>
           <h3>Oathless</h3>
           <p class="game__desc">Turn-based combat and gathering<br>in a land that broke its vows.<br>Follow along as it's built.</p>
-          <a href="#signup" class="btn btn--red btn--wide">Get notified</a>
+          <a href="https://mellow-martin.github.io/Oathless/" class="btn btn--red btn--wide" target="_blank" rel="noopener">Play now<span class="sr-only"> (opens in a new tab)</span></a>
         </article>
 
         <article class="game">

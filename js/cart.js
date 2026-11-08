@@ -19,6 +19,7 @@
 
   /* ---------- State ---------- */
   var items = load();
+  var shownCount = null; // count currently in the badge; the first render just writes it
 
   function load() {
     try { return JSON.parse(localStorage.getItem(STORE_KEY)) || []; } catch (e) { return []; }
@@ -60,7 +61,10 @@
   /* ---------- Rendering ---------- */
   function render() {
     var n = count();
-    badge.textContent = n;
+    // Roll the number like an odometer when it changes (js/text-fx.js)
+    if (shownCount !== null && n !== shownCount && window.OssuaryTextFx) window.OssuaryTextFx.odometer(badge, shownCount, n);
+    else badge.textContent = n;
+    shownCount = n;
     cartBtn.setAttribute('aria-label', 'Cart, ' + n + (n === 1 ? ' item' : ' items'));
     drawer.classList.toggle('is-empty', n === 0);
     msg.textContent = '';
